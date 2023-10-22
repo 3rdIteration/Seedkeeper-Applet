@@ -3,3 +3,5 @@ dist/
 .classpath
 .project
 gp.exe
+.idea
+SeedKeeper*.cap
