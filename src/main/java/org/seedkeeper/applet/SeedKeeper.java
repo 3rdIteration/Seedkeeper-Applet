@@ -672,7 +672,7 @@ public class SeedKeeper extends javacard.framework.Applet {
         om_encryptkey= (AESKey) KeyBuilder.buildKey(KeyBuilder.TYPE_AES, KeyBuilder.LENGTH_AES_128, false);
         om_encryptkey.setKey(recvBuffer, (short)0); // data must be exactly 16 bytes long
         om_aes128_ecb= Cipher.getInstance(Cipher.ALG_AES_BLOCK_128_ECB_NOPAD, false);
-
+       
         // logger
         logger= new Logger(LOGGER_NBRECORDS); 
         
@@ -681,15 +681,15 @@ public class SeedKeeper extends javacard.framework.Applet {
 
         // card label
         card_label= new byte[MAX_CARD_LABEL_SIZE];
-
+        
         // perso PKI: generate public/private keypair
         authentikey_private= (ECPrivateKey) KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PRIVATE, LENGTH_EC_FP_256, false);
         Secp256k1.setCommonCurveParameters(authentikey_private);
-        authentikey_public= (ECPublicKey) KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PUBLIC, LENGTH_EC_FP_256, false);
+        authentikey_public= (ECPublicKey) KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PUBLIC, LENGTH_EC_FP_256, false); 
         Secp256k1.setCommonCurveParameters(authentikey_public);
         randomData.generateData(recvBuffer, (short)0, BIP32_KEY_SIZE);
         authentikey_private.setS(recvBuffer, (short)0, BIP32_KEY_SIZE); //random value first
-        keyAgreement.init(authentikey_private);
+        keyAgreement.init(authentikey_private);   
         keyAgreement.generateSecret(Secp256k1.SECP256K1, Secp256k1.OFFSET_SECP256K1_G, (short) 65, recvBuffer, (short)0); //pubkey in uncompressed form => silently fail after cap loaded
         authentikey_public.setW(recvBuffer, (short)0, (short)65);
 
@@ -708,6 +708,7 @@ public class SeedKeeper extends javacard.framework.Applet {
 
         if (install_step < 2) {
             complete_install();
+		}
 
         // check nfc policy
         if (nfc_policy == NFC_DISABLED || nfc_policy == NFC_BLOCKED){
@@ -716,7 +717,6 @@ public class SeedKeeper extends javacard.framework.Applet {
             if (protocol != APDU.PROTOCOL_MEDIA_USB && protocol != APDU.PROTOCOL_MEDIA_DEFAULT) {
                 ISOException.throwIt(SW_NFC_DISABLED);
             }
-			
         }
 
         return true;

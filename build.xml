@@ -25,14 +25,14 @@
 		<mkdir dir="build"/>
 		<!-- Build for Javacard 3.0.4 (J3H145, etc)-->
 		<javacard>
-		  <cap jckit=".\sdks\jc304_kit" aid="536565644b6565706572" version="0.1" output="build\SeedKeeper-3.0.4.cap" sources="src\org\seedkeeper\applet">
+		  <cap jckit=".\sdks\jc304_kit" aid="536565644b6565706572" version="0.2" output="build\SeedKeeper-3.0.4.cap" sources="src\main\java\org\seedkeeper\applet">
 			<applet class="org.seedkeeper.applet.SeedKeeper" aid="536565644b656570657200"/>
 		  </cap>
 		</javacard>
 
 		<!-- Build for Javacard 3.0.5 (J3R180, THD-89, etc)-->
 		<javacard>
-		  <cap jckit=".\sdks\jc305u4_kit" aid="536565644b6565706572" version="0.1" output="build\SeedKeeper-3.0.5.cap" sources="src\org\seedkeeper\applet">
+		  <cap jckit=".\sdks\jc305u4_kit" aid="536565644b6565706572" version="0.2" output="build\SeedKeeper-3.0.5.cap" sources="src\main\java\org\seedkeeper\applet">
 			<applet class="org.seedkeeper.applet.SeedKeeper" aid="536565644b656570657200"/>
 		  </cap>
 		</javacard>
