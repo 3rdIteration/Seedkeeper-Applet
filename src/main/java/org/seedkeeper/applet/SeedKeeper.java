@@ -608,32 +608,9 @@ public class SeedKeeper extends javacard.framework.Applet {
         } catch (SystemException e) {
             sc_buffer = new byte[SIZE_SC_BUFFER];
         }
-        try {
-            // Put the AES key in RAM if we can.
-            sc_sessionkey = (AESKey)KeyBuilder.buildKey(TYPE_AES_TRANSIENT_DESELECT, KeyBuilder.LENGTH_AES_128, false);
-        } catch (CryptoException e) {
-            try {
-                // This uses a bit more RAM, but at least it isn't using flash.
-                sc_sessionkey = (AESKey)KeyBuilder.buildKey(TYPE_AES_TRANSIENT_RESET, KeyBuilder.LENGTH_AES_128, false);
-            } catch (CryptoException x) {
-                // Last option as it will wear out the flash eventually
-                sc_sessionkey = (AESKey)KeyBuilder.buildKey(KeyBuilder.TYPE_AES, KeyBuilder.LENGTH_AES_128, false);
-            }
-        }
-        //sc_sessionkey= (AESKey) KeyBuilder.buildKey(KeyBuilder.TYPE_AES, KeyBuilder.LENGTH_AES_128, false);
-        try {
-            // Put the EC key in RAM if we can.
-            sc_ephemeralkey= (ECPrivateKey) KeyBuilder.buildKey(TYPE_EC_FP_PRIVATE_TRANSIENT_DESELECT, LENGTH_EC_FP_256, false);
-        } catch (CryptoException e) {
-            try {
-                // This uses a bit more RAM, but at least it isn't using flash.
-                sc_ephemeralkey= (ECPrivateKey) KeyBuilder.buildKey(TYPE_EC_FP_PRIVATE_TRANSIENT_RESET, LENGTH_EC_FP_256, false);
-            } catch (CryptoException x) {
-                // Last option as it will wear out the flash eventually
-                sc_ephemeralkey= (ECPrivateKey) KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PRIVATE, LENGTH_EC_FP_256, false);
-            }
-        }
-        //sc_ephemeralkey= (ECPrivateKey) KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PRIVATE, LENGTH_EC_FP_256, false);
+
+        sc_sessionkey= (AESKey) KeyBuilder.buildKey(KeyBuilder.TYPE_AES, KeyBuilder.LENGTH_AES_128, false);
+        sc_ephemeralkey= (ECPrivateKey) KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PRIVATE, LENGTH_EC_FP_256, false);
         sc_aes128_cbc= Cipher.getInstance(Cipher.ALG_AES_BLOCK_128_CBC_NOPAD, false); 
         
         //secret secure channel objects are used to create a secure channel for encrypting secrets for export to another device. 
@@ -643,19 +620,7 @@ public class SeedKeeper extends javacard.framework.Applet {
         } catch (SystemException e) {
             secret_sc_buffer = new byte[SIZE_SC_BUFFER];
         }
-        try {
-            // Put the AES key in RAM if we can.
-            secret_sc_sessionkey = (AESKey)KeyBuilder.buildKey(TYPE_AES_TRANSIENT_DESELECT, KeyBuilder.LENGTH_AES_128, false);
-        } catch (CryptoException e) {
-            try {
-                // This uses a bit more RAM, but at least it isn't using flash.
-                secret_sc_sessionkey = (AESKey)KeyBuilder.buildKey(TYPE_AES_TRANSIENT_RESET, KeyBuilder.LENGTH_AES_128, false);
-            } catch (CryptoException x) {
-                // Last option as it will wear out the flash eventually
-                secret_sc_sessionkey = (AESKey)KeyBuilder.buildKey(KeyBuilder.TYPE_AES, KeyBuilder.LENGTH_AES_128, false);
-            }
-        }
-        //secret_sc_sessionkey= (AESKey) KeyBuilder.buildKey(KeyBuilder.TYPE_AES, KeyBuilder.LENGTH_AES_128, false);
+        secret_sc_sessionkey= (AESKey) KeyBuilder.buildKey(KeyBuilder.TYPE_AES, KeyBuilder.LENGTH_AES_128, false);
         secret_sc_aes128_cbc= Cipher.getInstance(Cipher.ALG_AES_BLOCK_128_CBC_NOPAD, false); 
 
         install_step = 1;
